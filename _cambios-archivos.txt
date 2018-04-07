@@ -1,0 +1,20 @@
+Theme hijo
+----------
+woocommerce/content-product.php
+woocommerce/loop/sale-flash.php
+Woocommerce/single-product/sale-flash.php
+
+Agregados:
+woocommerce/taxonomy-product_cat-llantas.php
+woocommerce/taxonomy-product_cat-neumaticos.php
+
+En el theme padre
+-----------
+
+Se debe usar el archivo aux/illantas-widget-layered-nav.php
+
+Copiarlo en el theme padre:
+includes/widgets/illantas-widget-layered-nav.php
+Modificar en el functions.php include_once este archivo
+
+
