@@ -193,7 +193,7 @@ if ( ! $sidebar ) {
 		</div>
 		
 		<aside id="secondary" class="sidebar col-xs-12 col-md-4 col-lg-3 flex-md-first">
-			<div class="widget-area">
+			<div class="widget-area widgets-illantas">
 				<?php dynamic_sidebar( 'idzonaneumaticos' ); ?>
 			</div>
 		</aside>

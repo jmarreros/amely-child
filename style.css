@@ -10,3 +10,67 @@ Template: amely
 .page-title{
 	display: none;
 }
+
+.widgets-illantas{
+	padding:12px;
+	background-color: #20759C;
+}
+
+.widgets-illantas .widget-title{
+	font-size: 20px;
+	margin-bottom: 16px;
+}
+
+.widgets-illantas .widget{
+	border:none;
+	margin-bottom:10px;
+	padding-bottom:6px;
+}
+
+.widgets-illantas select{
+	width: 90%;
+	border: none;
+	padding: 2px;
+}
+
+.widgets-illantas .widget-title,
+.widgets-illantas span{
+	color: rgba(255,255,255,0.7);
+	display: block;
+	margin-bottom: 6px;
+}
+
+.widgets-illantas .widget-title{
+	color:white;
+}
+
+#sidebar-search .row{
+	margin: auto;
+	max-width: 780px;
+}
+
+#sidebar-search .widget-title{
+	width: 100%;
+	max-width: 760px;
+	margin: auto;
+	margin-bottom: 15px;
+}
+
+#sidebar-search:after{
+	content:"";
+	display: block;
+	clear: both;
+}
+
+#sidebar-search .reset{
+	background-color: black;
+	color:white;
+	padding: 6px 16px;
+	float: right;
+	margin-right: 22px;
+}
+
+#sidebar-search .reset:hover{
+	background-color: #4c4c4c;
+}
+

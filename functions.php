@@ -40,13 +40,31 @@ function ACF_product_content(){
 
 function dcms_zona_llantas() {
 	register_sidebar( array(
-		'name'          => 'Zona Widget Llantas',
-		'id'            => 'idzonallantas',
-		'description'   => 'Widgets para la categoría Llantas',
+		'name'          => 'Zona Widget Llantas Col 1',
+		'id'            => 'idzonallantas1',
+		'description'   => 'Widgets para la categoría Llantas Col 1',
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
+		'before_title'  => '<span class="title-select">',
+		'after_title'   => '</span>',
+	) );
+	register_sidebar( array(
+		'name'          => 'Zona Widget Llantas Col 2',
+		'id'            => 'idzonallantas2',
+		'description'   => 'Widgets para la categoría Llantas Col2',
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<span class="title-select">',
+		'after_title'   => '</span>',
+	) );
+	register_sidebar( array(
+		'name'          => 'Zona Widget Llantas Col 3',
+		'id'            => 'idzonallantas3',
+		'description'   => 'Widgets para la categoría Llantas Col3',
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<span class="title-select">',
+		'after_title'   => '</span>',
 	) );
 }
 add_action( 'widgets_init', 'dcms_zona_llantas' );
@@ -58,8 +76,8 @@ function dcms_zona_neumaticos() {
 		'description'   => 'Widgets para la categoría Neumaticos',
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
+		'before_title'  => '<span class="title-select">',
+		'after_title'   => '</span>',
 	) );
 }
 add_action( 'widgets_init', 'dcms_zona_neumaticos' );

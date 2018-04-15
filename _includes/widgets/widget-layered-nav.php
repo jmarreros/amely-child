@@ -5,210 +5,23 @@
  *
  */
 
-if ( ! class_exists( 'iLlantas_Layered_Nav_Widget' ) ) {
+if ( ! class_exists( 'Amely_Layered_Nav_Widget' ) ) {
 
-	add_action( 'widgets_init', 'load_illantas_layered_nav_widget' );
+	add_action( 'widgets_init', 'load_amely_layered_nav_widget' );
 
-	function load_illantas_layered_nav_widget() {
-		register_widget( 'iLlantas_Layered_Nav_Widget' );
+	function load_amely_layered_nav_widget() {
+		register_widget( 'Amely_Layered_Nav_Widget' );
 	}
 
-
-
-
-	class iLlantas_Layered_Nav_Widget extends WPH_Widget {
-
-
-		/**
-			Función layered_nav_dropdown modificada
-			----------------------------------------
-		 */
-		protected function illantas_layered_nav_dropdown( $terms, $taxonomy, $query_type ) {
-			$found = false;
-
-
-			$relation_attributes = $this->get_array_modelos_marcas();
-
-
-			// ----
-			// $relation_attributes = [
-			// 				['pa_marca' => 'Volkswagen', 'pa_modelo' => 'Golf'],
-			// 				['pa_marca' => 'Volkswagen', 'pa_modelo' => 'Polo'],
-			// 				['pa_marca' => 'Audi', 'pa_modelo' => 'A1'],
-			// 				['pa_marca' => 'Audi', 'pa_modelo' => 'A2'],
-			// 				['pa_marca' => 'Audi', 'pa_modelo' => 'A3'],
-			// 				['pa_marca' => '500 Abarth', 'pa_modelo' => 'Abarth modelo']
-			// 			];
-
-			$data_attributes = array();
-			// ----
-
-			if ( $taxonomy !== $this->get_current_taxonomy() ) {
-				$term_counts          = $this->get_filtered_term_product_counts( wp_list_pluck( $terms, 'term_id' ),
-					$taxonomy,
-					$query_type );
-				$_chosen_attributes   = WC_Query::get_layered_nav_chosen_attributes();
-				$taxonomy_filter_name = str_replace( 'pa_', '', $taxonomy );
-				$taxonomy_label       = wc_attribute_label( $taxonomy );
-				$any_label            = apply_filters( 'woocommerce_layered_nav_any_label',
-					sprintf( __( 'Todos', 'amely' ), $taxonomy_label ),
-					$taxonomy_label,
-					$taxonomy );
-
-				echo '<a href="#" class="filter-pseudo-link link-taxonomy-' . $taxonomy_filter_name . '">' . esc_html__( 'Apply filter',
-						'amely' ) . '</a>';
-
-				echo '<select class="dropdown_layered_nav_' . $taxonomy_filter_name . '" data-filter-url="' . preg_replace( '%\/page\/[0-9]+%',
-						'',
-						str_replace( array(
-							'&amp;',
-							'%2C',
-						),
-							array(
-								'&',
-								',',
-							),
-							esc_js( add_query_arg( 'filtering',
-								'1',
-								remove_query_arg( array(
-									'page',
-									'_pjax',
-									'filter_' . $taxonomy_filter_name,
-								) ) ) ) ) ) . "&filter_" . esc_js( $taxonomy_filter_name ) . "=AMELY_FILTER_VALUE" . '">';
-
-				echo '<option value="">' . esc_html( $any_label ) . '</option>';
-
-
-				// -------
-
-				foreach ( $terms as $term ) {
-					// If on a term page, skip that term in widget list
-					if ( $term->term_id === $this->get_current_term_id() ) {
-						continue;
-					}
-
-					// Get count based on current view
-					$current_values = isset( $_chosen_attributes[ $taxonomy ]['terms'] ) ? $_chosen_attributes[ $taxonomy ]['terms'] : array();
-					$option_is_set  = in_array( $term->slug, $current_values );
-					$count          = isset( $term_counts[ $term->term_id ] ) ? $term_counts[ $term->term_id ] : 0;
-
-					// Only show options with count > 0
-					if ( 0 < $count ) {
-						$found = true;
-					} elseif ( 0 === $count && ! $option_is_set ) {
-						continue;
-					}
-
-					$data_attributes[] = [ 'taxonomy' => $taxonomy, 'name' => $term->name, 'slug' => $term->slug, 'isset' => $option_is_set ];
-				}
-				
-				$sel_marca ='';
-				$sel_modelo = '';
-
-				if ( $taxonomy == 'pa_marca' || $taxonomy == 'pa_modelo' ){
-
-					if ( isset($_chosen_attributes[ 'pa_modelo' ]['terms']) ){
-						$sel_modelo = $_chosen_attributes[ 'pa_modelo' ]['terms'][0];
-					}
-					
-					if ( isset($_chosen_attributes[ 'pa_marca' ]['terms']) ){
-						$sel_marca = $_chosen_attributes[ 'pa_marca' ]['terms'][0];
-					}
-
-				}
-
-				$arr_value = array();
-
-				// el modelo esta sin selecionar, llenamos datos
-				if ( $sel_marca && empty($sel_modelo) && $taxonomy == 'pa_modelo' ){ 
-					$arr_value = $this->detect_valid_attribute( 'pa_marca', $taxonomy, $sel_marca, $data_attributes, $relation_attributes );
-				} // la marca esta sin seleccionar, llenamos datos 
-				elseif ( empty($sel_marca) && $sel_modelo && $taxonomy == 'pa_marca' ){ 
-					$arr_value = $this->detect_valid_attribute( 'pa_modelo', $taxonomy, $sel_modelo, $data_attributes, $relation_attributes );
-				} // en caso se tenga selección de ambos
-				elseif ( $sel_marca && $sel_modelo && $taxonomy == 'pa_modelo' ) {
-					$arr_value = $this->detect_valid_attribute( 'pa_marca', $taxonomy, $sel_marca, $data_attributes, $relation_attributes );
-				}
-
-				if ( ! empty( $arr_value) ){
-					$data_attributes = $arr_value;
-				}
-				
-
-				foreach ( $data_attributes as $data_atribute ) {
-					echo '<option value="' . esc_attr( $data_atribute['slug'] ) . '" ' . selected( $data_atribute['isset'],
-							true,false ) . '>' . esc_html( $data_atribute['name'] ) . '</option>';
-				}
-
-				// -------
-
-
-				echo '</select>';
-			}
-
-			return $found;
-		}
-
-
-		// funciones auxiliares modificaciones
-
-		protected function detect_valid_attribute( $compare_taxonomy, $current_taxonomy, $value, $data_attributes, $relation_attributes ){
-			$taxonomy_value = array();
-			$retun_data_attributes = $data_attributes;
-
-			foreach ( $relation_attributes as $relation_atribute ) {
-				if ( sanitize_title( $relation_atribute[ $compare_taxonomy ] ) == $value ) {
-					$taxonomy_value[] = sanitize_title($relation_atribute[ $current_taxonomy ]); //almacena valores válidos
-				}
-			}	
-			
-			foreach ( $retun_data_attributes as $key => $data_atribute ){
-				if ( ! in_array( $data_atribute['slug'] , $taxonomy_value ) ){
-					unset( $retun_data_attributes[$key] );
-				}
-			}
-
-			return $retun_data_attributes;
-		}
-
-
-		// Devuelve un array asociativo de modelos y marcas relacionados
-		protected function get_array_modelos_marcas(){
-			$arr = array();
-
-			$terms_modelos = get_terms( 'pa_modelo' );
-			$terms_marcas = get_terms( 'pa_marca' );
-
-			foreach ($terms_modelos as $item ) {
-
-				$term_meta = get_term_meta( $item->term_id, 'sel-marcas', true );
-				$arr[] = [ 
-							'pa_marca' => $this->search_marca( $term_meta , $terms_marcas ), 
-							'pa_modelo' => $item->slug 
-						];
-			}
-			
-			return $arr;
-		}
-
-		private function search_marca( $id_marca , $terms_marcas ){
-			foreach ($terms_marcas as $marca) {
-				if ( $marca->term_id == $id_marca ){
-					return $marca->slug;
-				}
-			}
-			return '';
-		}
-		// Fin Modificaciones
-		// ------------------
-
-
+	/**
+	 * Layered Nav Widget by ThemeMove
+	 */
+	class Amely_Layered_Nav_Widget extends WPH_Widget {
 
 		/**
 		 * Register widget with WordPress.
 		 */
 		function __construct() {
-
 
 			$attribute_array      = array();
 			$attribute_taxonomies = wc_get_attribute_taxonomies();
@@ -223,10 +36,10 @@ if ( ! class_exists( 'iLlantas_Layered_Nav_Widget' ) ) {
 			$args = array(
 				'slug'        => 'tm_layered_nav',
 				// Widget Backend label
-				'label'       => '&#x1f3c1; &nbsp;' . esc_html__( 'iLlantas WooCommerce Layered Nav',
+				'label'       => '&#x1f3c1; &nbsp;' . esc_html__( 'AMELY WooCommerce Layered Nav',
 						'amely' ),
 				// Widget Backend Description
-				'description' => esc_html__( 'Widget para mostrar los filtros dependientes entra marcas y modelos.',
+				'description' => esc_html__( 'Shows a custom attribute in a widget which lets you narrow down the list of products when viewing product categories.',
 					'amely' ),
 			);
 
@@ -297,10 +110,10 @@ if ( ! class_exists( 'iLlantas_Layered_Nav_Widget' ) ) {
 			);
 
 			$this->create_widget( $args );
-
 		}
 
 		function widget( $args, $instance ) {
+
 			if ( ! is_post_type_archive( 'product' ) && ! is_tax( get_object_taxonomies( 'product' ) ) ) {
 				return;
 			}
@@ -357,8 +170,7 @@ if ( ! class_exists( 'iLlantas_Layered_Nav_Widget' ) ) {
 			echo '' . $title ? $args['before_title'] . $title . $args['after_title'] : '';
 
 			if ( 'dropdown' === $display_type ) {
-				// hacemos referencia a la función modificada - jmarreros
-				$found = $this->illantas_layered_nav_dropdown( $terms, $taxonomy, $query_type ); 
+				$found = $this ->layered_nav_dropdown( $terms, $taxonomy, $query_type );
 			} else {
 				$found = $this->layered_nav_list( $terms, $taxonomy, $query_type, $instance );
 			}
@@ -416,6 +228,20 @@ if ( ! class_exists( 'iLlantas_Layered_Nav_Widget' ) ) {
 		protected function layered_nav_dropdown( $terms, $taxonomy, $query_type ) {
 			$found = false;
 
+			// Modificaciones
+			$relation_attributes = [
+							['pa_marca' => 'Volkswagen', 'pa_modelo' => 'Golf'],
+							['pa_marca' => 'Volkswagen', 'pa_modelo' => 'Polo'],
+							['pa_marca' => 'Audi', 'pa_modelo' => 'A1'],
+							['pa_marca' => 'Audi', 'pa_modelo' => 'A2'],
+							['pa_marca' => 'Audi', 'pa_modelo' => 'A3'],
+							['pa_marca' => '500 Abarth', 'pa_modelo' => 'Abarth modelo']
+						];
+
+			$data_attributes = array();
+
+			//--Fin Modificaciones
+
 			if ( $taxonomy !== $this->get_current_taxonomy() ) {
 				$term_counts          = $this->get_filtered_term_product_counts( wp_list_pluck( $terms, 'term_id' ),
 					$taxonomy,
@@ -458,6 +284,8 @@ if ( ! class_exists( 'iLlantas_Layered_Nav_Widget' ) ) {
 						continue;
 					}
 
+					
+
 					// Get count based on current view
 					$current_values = isset( $_chosen_attributes[ $taxonomy ]['terms'] ) ? $_chosen_attributes[ $taxonomy ]['terms'] : array();
 					$option_is_set  = in_array( $term->slug, $current_values );
@@ -470,17 +298,109 @@ if ( ! class_exists( 'iLlantas_Layered_Nav_Widget' ) ) {
 						continue;
 					}
 
-					echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( $option_is_set,
-							true,
-							false ) . '>' . esc_html( $term->name ) . '</option>';
+					// Modificaciones
+					$data_attributes[] = [ 'taxonomy' => $taxonomy, 'name' => $term->name, 'slug' => $term->slug, 'isset' => $option_is_set ];
 
+					// error_log($option_is_set .'-'. $term->slug.'-'.$term->name.'-'.$taxonomy);
+
+					// echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( $option_is_set,
+					// 		true,
+					// 		false ) . '>' . esc_html( $term->name ) . '</option>';
+
+				}
+
+				//isset( $_chosen_attributes[ $taxonomy ]['terms'] ) ? $_chosen_attributes[ $taxonomy ]['terms'] : array();
+
+				$sel_marca ='';
+				$sel_modelo = '';
+
+				if ( $taxonomy == 'pa_marca' || $taxonomy == 'pa_modelo' ){
+
+					if ( isset($_chosen_attributes[ 'pa_modelo' ]['terms']) ){
+						$sel_modelo = $_chosen_attributes[ 'pa_modelo' ]['terms'][0];
+					}
+					
+					if ( isset($_chosen_attributes[ 'pa_marca' ]['terms']) ){
+						$sel_marca = $_chosen_attributes[ 'pa_marca' ]['terms'][0];
+					}
+
+				}
+
+				$arr_value = array();
+
+				// el modelo esta sin selecionar, llenamos datos
+				if ( $sel_marca && empty($sel_modelo) && $taxonomy == 'pa_modelo' ){ 
+					$arr_value = $this->detect_valid_attribute( 'pa_marca', $taxonomy, $sel_marca, $data_attributes, $relation_attributes );
+				} // la marca esta sin seleccionar, llenamos datos 
+				elseif ( empty($sel_marca) && $sel_modelo && $taxonomy == 'pa_marca' ){ 
+					$arr_value = $this->detect_valid_attribute( 'pa_modelo', $taxonomy, $sel_modelo, $data_attributes, $relation_attributes );
+				} // en caso se tenga selección de ambos
+				elseif ( $sel_marca && $sel_modelo && $taxonomy == 'pa_modelo' ) {
+					$arr_value = $this->detect_valid_attribute( 'pa_marca', $taxonomy, $sel_marca, $data_attributes, $relation_attributes );
+				}
+
+				if ( ! empty( $arr_value) ){
+					// foreach ($arr_value as $key => $value) {
+					// 	error_log( implode(',', $value) );
+					// }
+					$data_attributes = $arr_value;
+				}
+				// error_log( $sel_marca . ' - ' . $sel_modelo )
+
+
+				//error_log('hola');
+				// $selMarca  = $this->detect_selected_attribute( $data_attributes, 'pa_marca' );
+				// $selModelo = $this->detect_selected_attribute( $data_attributes, 'pa_modelo' );
+				
+				// error_log("Seleccionado Marca:" . $selMarca);
+				// error_log("Seleccionado Modelo:" . $selModelo);
+				
+
+				// if ( $selMarca && ! $selModelo ){
+				// 	error_log("Seleccionado Marca:" . $selMarca);
+				// } elseif ( ! $selMarca && $selModelo ) {
+				// 	error_log("Seleccionado Modelo:" . $selModelo);
+				// }
+
+
+				foreach ( $data_attributes as $data_atribute ) {
+					//error_log( $data_atribute['taxonomy'] . '-' . $data_atribute['name'] . '-' .  $data_atribute['isset'] );
+					echo '<option value="' . esc_attr( $data_atribute['slug'] ) . '" ' . selected( $data_atribute['isset'],
+							true,false ) . '>' . esc_html( $data_atribute['name'] ) . '</option>';
 				}
 
 				echo '</select>';
 			}
 
+			
+
 			return $found;
 		}
+
+		// Funciones Modificaciones
+
+		protected function detect_valid_attribute( $compare_taxonomy, $current_taxonomy, $value, $data_attributes, $relation_attributes ){
+			$taxonomy_value = array();
+			$retun_data_attributes = $data_attributes;
+
+			foreach ( $relation_attributes as $relation_atribute ) {
+				if ( sanitize_title( $relation_atribute[ $compare_taxonomy ] ) == $value ) {
+					$taxonomy_value[] = sanitize_title($relation_atribute[ $current_taxonomy ]); //almacena valores válidos
+				}
+			}	
+			
+			foreach ( $retun_data_attributes as $key => $data_atribute ){
+				if ( ! in_array( $data_atribute['slug'] , $taxonomy_value ) ){
+					unset( $retun_data_attributes[$key] );
+				}
+			}
+
+			return $retun_data_attributes;
+		}
+
+		// Fin Modificaciones
+
+
 
 		/**
 		 * Get current page URL for layered nav items.
@@ -550,6 +470,7 @@ if ( ! class_exists( 'iLlantas_Layered_Nav_Widget' ) ) {
 						$link = add_query_arg( 'query_type_' . $filter_name, 'or', $link );
 					}
 				}
+
 			}
 
 			return $link;
@@ -658,6 +579,7 @@ if ( ! class_exists( 'iLlantas_Layered_Nav_Widget' ) ) {
 				} elseif ( 0 === $count && ! $option_is_set ) {
 					continue;
 				}
+
 
 				$filter_name    = 'filter_' . sanitize_title( str_replace( 'pa_', '', $taxonomy ) );
 				$current_filter = isset( $_GET[ $filter_name ] ) ? explode( ',',
