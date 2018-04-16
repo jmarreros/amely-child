@@ -71,15 +71,36 @@ add_action( 'widgets_init', 'dcms_zona_llantas' );
 
 function dcms_zona_neumaticos() {
 	register_sidebar( array(
-		'name'          => 'Zona Widget Neumáticos',
-		'id'            => 'idzonaneumaticos',
-		'description'   => 'Widgets para la categoría Neumaticos',
+		'name'          => 'Zona Widget Neumáticos Col 1',
+		'id'            => 'idzonaneumaticos1',
+		'description'   => 'Widgets para la categoría Neumaticos Col 1',
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<span class="title-select">',
+		'after_title'   => '</span>',
+	) );
+
+	register_sidebar( array(
+		'name'          => 'Zona Widget Neumáticos Col 2',
+		'id'            => 'idzonaneumaticos2',
+		'description'   => 'Widgets para la categoría Neumaticos Col 2',
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<span class="title-select">',
+		'after_title'   => '</span>',
+	) );
+
+	register_sidebar( array(
+		'name'          => 'Zona Widget Neumáticos Col 3',
+		'id'            => 'idzonaneumaticos3',
+		'description'   => 'Widgets para la categoría Neumaticos Col 3',
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
 		'before_title'  => '<span class="title-select">',
 		'after_title'   => '</span>',
 	) );
 }
+
 add_action( 'widgets_init', 'dcms_zona_neumaticos' );
 
 

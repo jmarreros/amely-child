@@ -42,7 +42,8 @@ if ( $sidebar_config == 'left' ) {
 	$content_class   = 'col-xs-12';
 }
 
-$sidebar = Amely_Helper::get_active_sidebar( true );
+//$sidebar = Amely_Helper::get_active_sidebar( true );
+$sidebar = false;
 
 if ( ! $sidebar ) {
 	$page_wrap_class = 'has-no-sidebars row';
@@ -51,9 +52,35 @@ if ( ! $sidebar ) {
 
 ?>
 
-<div class="container<?php echo $full_width_shop ? ' wide' : ''; ?>">
+<div class="container wide<?php echo $full_width_shop ? ' wide' : ''; ?>">
 	<div class="inner-page-wrap <?php echo esc_attr( $page_wrap_class ); ?>">
 		<div id="main" class="site-content <?php echo esc_attr( $content_class ); ?>" role="main">
+
+
+		<aside id="sidebar-search" class="widgets-illantas neumaticos sidebar">
+
+			<h2 class="widget-title "> 
+				Compara y compra la mejor llanta de coche
+			</h2>			
+			
+			<div class="row">
+
+				<div class="widget-area col1 col-xs-12 col-md-4">
+					<?php dynamic_sidebar( 'idzonaneumaticos1' ); ?>
+				</div>
+				
+				<div class="widget-area col2 col-xs-12 col-md-4">
+					<?php dynamic_sidebar( 'idzonaneumaticos2' ); ?>
+				</div>
+
+				<div class="widget-area col3 col-xs-12 col-md-4">
+					<?php dynamic_sidebar( 'idzonaneumaticos3' ); ?>
+				</div>
+			</div>
+
+		</aside>
+
+
 			<?php
 			/**
 			 * woocommerce_before_main_content hook.
@@ -191,14 +218,17 @@ if ( ! $sidebar ) {
 			do_action( 'woocommerce_after_main_content' );
 			?>
 		</div>
-		
-		<aside id="secondary" class="sidebar col-xs-12 col-md-4 col-lg-3 flex-md-first">
-			<div class="widget-area widgets-illantas">
-				<?php dynamic_sidebar( 'idzonaneumaticos' ); ?>
-			</div>
-		</aside>
 		<?php
-		// do_action( 'woocommerce_sidebar' );
+		/**
+		 * woocommerce_sidebar hook.
+		 *
+		 * @hooked woocommerce_get_sidebar - 10
+		 */
+
+		?>
+
+		<?php
+		//do_action( 'woocommerce_sidebar' );
 		?>
 	</div>
 </div>
