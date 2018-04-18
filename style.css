@@ -74,3 +74,61 @@ Template: amely
 	background-color: #4c4c4c;
 }
 
+
+/* Modificaciones lista productos */
+
+.term-llantas .products .product{
+	position: static!important;
+	display: flex;
+}
+
+.term-llantas .products .product > div{
+	
+}
+
+.term-llantas .products .product .product-thumb{
+	max-width: 120px;
+	margin-left: 100px;
+}
+
+
+.term-llantas .products.row.ajax-products.grid{
+	display: block;
+	flex-wrap:nowrap;
+	height: auto!important;
+}
+
+.term-llantas .product-loop .product-buttons{
+	transform: translateX(-100%);
+	margin-left: 15px;
+}
+
+.term-llantas .product-loop .product-buttons > div a::before{
+	font-size: 15px;
+	line-height: 30px;
+}
+
+.term-llantas .product-loop .product-buttons .quick-view-btn{
+	width:30px;
+	height: 30px;
+}
+
+.term-llantas .product-loop .product-buttons .quick-view-btn{
+	border-right: none;
+}
+
+
+/*.term-llantas .product-loop .product-buttons,
+.term-llantas .product-loop .product-buttons > div{
+	transform: none;
+	opacity: 1;
+	visibility: visible;
+}
+
+.term-llantas .product-loop .product-buttons{
+	
+	top:0;
+	left: -100px;
+}*/
+
+

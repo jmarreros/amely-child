@@ -20,6 +20,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
+add_filter( 'woocommerce_loop_add_to_cart_link', 'quantity_inputs_for_woocommerce_loop_add_to_cart_link', 10, 2 );
+
+function quantity_inputs_for_woocommerce_loop_add_to_cart_link( $html, $product ) {
+
+	if ( $product && $product->is_type( 'simple' ) && $product->is_purchasable() && $product->is_in_stock() && ! $product->is_sold_individually() ) {
+		$html = "<div class='quantity amely_qty illantas_qty'><span class='minus'>-</span>
+					<label class='screen-reader-text' >Cantidad</label>
+					<input class='input-text qty text' step='1' name='quantity' value='2' title='Cantidad' size='4' pattern='[0-9]*' inputmode='numeric' aria-labelledby='' type='number'>
+				<span class='plus'>+</span></div>";
+		$html .= "<a href='" . esc_url( $product->add_to_cart_url() ) . "'";
+		$html .= " class = 'button product_type_simple add_to_cart_button ajax_add_to_cart' ";
+		$html .= " data-quantity='2'";
+		$html .= " data-product_id='" . $product->get_id() . "'";
+		$html .= " data-product_name='". $product->get_title() ."'";
+		$html .= " rel='nofollow'";
+		$html .= ">";
+		$html .= esc_html( $product->add_to_cart_text() );
+		$html .= "</a>";
+	}
+	return $html;
+}
+
 
 get_header( 'shop' );
 
@@ -171,18 +193,43 @@ if ( ! $sidebar ) {
 				woocommerce_product_loop_start();
 
 				if ( wc_get_loop_prop( 'total' ) ) {
+
+					
+					// while ( have_posts() ) {
+					// 	the_post();
+
+					// 	*
+					// 	 * Hook: woocommerce_shop_loop.
+					// 	 *
+					// 	 * @hooked WC_Structured_Data::generate_product_data() - 10
+						 
+					// 	do_action( 'woocommerce_shop_loop' );
+
+					// 	wc_get_template_part( 'content', 'product' );
+					// }
+
+
+					// Table format
+
 					while ( have_posts() ) {
 						the_post();
-
 						/**
 						 * Hook: woocommerce_shop_loop.
 						 *
 						 * @hooked WC_Structured_Data::generate_product_data() - 10
 						 */
+						//do_action( 'woocommerce_shop_loop' );
+
+
 						do_action( 'woocommerce_shop_loop' );
 
-						wc_get_template_part( 'content', 'product' );
+						wc_get_template_part( 'content', 'table-product' );
+
 					}
+
+
+
+
 
 				}
 

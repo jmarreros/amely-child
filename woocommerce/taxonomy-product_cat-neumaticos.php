@@ -21,6 +21,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 
+
+
+
+
 get_header( 'shop' );
 
 // Sidebar config
@@ -171,6 +175,7 @@ if ( ! $sidebar ) {
 				woocommerce_product_loop_start();
 
 				if ( wc_get_loop_prop( 'total' ) ) {
+
 					while ( have_posts() ) {
 						the_post();
 
@@ -183,6 +188,7 @@ if ( ! $sidebar ) {
 
 						wc_get_template_part( 'content', 'product' );
 					}
+					
 
 				}
 
