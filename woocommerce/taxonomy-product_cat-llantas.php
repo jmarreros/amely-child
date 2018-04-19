@@ -36,7 +36,7 @@ function quantity_inputs_for_woocommerce_loop_add_to_cart_link( $html, $product 
 		$html .= " data-product_name='". $product->get_title() ."'";
 		$html .= " rel='nofollow'";
 		$html .= ">";
-		$html .= esc_html( $product->add_to_cart_text() );
+		$html .= "Agregar";//esc_html( $product->add_to_cart_text() );
 		$html .= "</a>";
 	}
 	return $html;
@@ -74,7 +74,7 @@ if ( ! $sidebar ) {
 
 ?>
 
-<div class="container wide<?php echo $full_width_shop ? ' wide' : ''; ?>">
+<div class="illantas container wide<?php echo $full_width_shop ? ' wide' : ''; ?>">
 	<div class="inner-page-wrap <?php echo esc_attr( $page_wrap_class ); ?>">
 		<div id="main" class="site-content <?php echo esc_attr( $content_class ); ?>" role="main">
 
@@ -211,25 +211,27 @@ if ( ! $sidebar ) {
 
 					// Table format
 
+					?>
+					<div class='product product-loop new post-106 type-product status-publish has-post-thumbnail product_cat-llantas'>
+						<div class="wrap-first-columns"></div>
+						<div class="attributes attr-header">
+							<div class="attr-et attr"> <strong>DIAM.</strong></div>
+							<div class="attr-anclaje attr"> <strong>ANC.</strong></div>
+							<div class="attr-et attr"> <strong>ET.</strong></div>
+						</div>
+						<div class="wrap-last-columns"></div>
+					</div>
+
+					<?php
+
 					while ( have_posts() ) {
 						the_post();
-						/**
-						 * Hook: woocommerce_shop_loop.
-						 *
-						 * @hooked WC_Structured_Data::generate_product_data() - 10
-						 */
-						//do_action( 'woocommerce_shop_loop' );
-
 
 						do_action( 'woocommerce_shop_loop' );
 
 						wc_get_template_part( 'content', 'table-product' );
 
 					}
-
-
-
-
 
 				}
 

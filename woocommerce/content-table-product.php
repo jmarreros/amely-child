@@ -70,55 +70,57 @@ $buttons_class[] = wp_is_mobile() ? 'mobile' : '';
 
 <div <?php post_class( $classes ); ?>>
 	
-	<div class="labels">
-		<?php woocommerce_show_product_loop_sale_flash(); ?>
-	</div>
-
-	<div class="product-thumb">
-
-		<?php
-
-		Amely_Woo::wishlist_button();
-
-		do_action( 'woocommerce_before_shop_loop_item_title' );
-		?>
-		<div class="<?php echo implode( ' ', $buttons_class ); ?>">
-
-			<?php
-			Amely_Woo::quick_view_button();
-			
-			// Amely_Woo::compare_button();
-			?>
-
+	<div class="wrap-first-columns">
+		<div class="labels">
+			<?php woocommerce_show_product_loop_sale_flash(); ?>
 		</div>
 
-	</div>
+		<div class="product-thumb">
+			<?php
+				Amely_Woo::wishlist_button();
+				do_action( 'woocommerce_before_shop_loop_item_title' );
+			?>
+			<div class="<?php echo implode( ' ', $buttons_class ); ?>">
+				<?php
+					Amely_Woo::quick_view_button();
+				?>
+			</div>
+		</div>
 
-	<div class="product-name">
-		<?php echo "<span>" . $product->get_name() . "</span>"; ?>
+		<div class="product-name">
+			<?php 
+				echo "<a href='" . $product->get_permalink() . "' >";
+				echo "<span>" . $product->get_name() . "</span>"; 
+				echo "</a>";
+			?>
+
+			<div class="fabricante">
+				Algún fabricante
+				<?php echo $product->get_attribute( 'pa_fabricante' );  ?>
+			</div>
+		</div>
 	</div>
 
 	<div class="attributes">
+		<div class="attr-et attr"> <strong>Diámetro:</strong> 
+			<?php echo $product->get_attribute( 'pa_diametro' );  ?>
+		</div>
 		<div class="attr-anclaje attr"> <strong>Anclaje:</strong> 
 			<?php echo $product->get_attribute( 'pa_anclaje' );  ?>
 		</div>
 		<div class="attr-et attr"> <strong>ET:</strong> 
 			<?php echo $product->get_attribute( 'pa_et' );  ?>
 		</div>
-		<div class="attr-et attr"> <strong>Diámetro:</strong> 
-			<?php echo $product->get_attribute( 'pa_diametro' );  ?>
-		</div>
-		<div class="attr-et attr"> <strong>Fabricante:</strong> 
-			<?php echo $product->get_attribute( 'pa_fabricante' );  ?>
-		</div>
 	</div>
 
-	<div class="wrap-price">
-		<?php do_action( 'woocommerce_after_shop_loop_item_title' ); ?>
-	</div>
+	<div class="wrap-last-columns">
+		<div class="wrap-price">
+			<?php do_action( 'woocommerce_after_shop_loop_item_title' ); ?>
+		</div>
 
-	<div class="add_cart">
-		<?php woocommerce_template_loop_add_to_cart(); ?>
+		<div class="add_cart">
+			<?php woocommerce_template_loop_add_to_cart(); ?>
+		</div>
 	</div>
 </div>
 
