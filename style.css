@@ -80,15 +80,63 @@ Template: amely
 .term-llantas .products .product{
 	position: static!important;
 	display: flex;
+	max-width: 100%;
 }
 
 .term-llantas .products .product > div{
-	
+	 flex-grow: 1;
+}
+
+.term-llantas .attributes{
+	color:black;
+	padding: 16px;
+	max-width: 300px;
+}
+
+.term-llantas .attributes strong{
+	font-weight: 500;
+	color:#20759C;
+}
+
+.term-llantas .labels{
+	position: relative;
+	text-align: right;
+}
+
+.term-llantas .labels .product-badges span{
+	left: auto;
+	right: 15px;
+}
+
+.term-llantas.woocommerce .quantity.amely_qty{
+	display: block!important;
+	margin:auto;
+}
+
+.term-llantas .add_cart{
+	max-width: 200px;
+	text-align: center;
+}
+
+.term-llantas .wrap-price{
+	padding: 20px;
+}
+
+.term-llantas .wrap-price del,
+.term-llantas .wrap-price ins,
+.term-llantas .wrap-price .price{
+	font-size: 16px;
+	text-align: right;
+	display: block;
+}
+
+.term-llantas .wrap-price ins,
+.term-llantas .wrap-price .price{
+	font-size: 20px;
 }
 
 .term-llantas .products .product .product-thumb{
 	max-width: 120px;
-	margin-left: 100px;
 }
 
 
@@ -101,6 +149,19 @@ Template: amely
 .term-llantas .product-loop .product-buttons{
 	transform: translateX(-100%);
 	margin-left: 15px;
+}
+
+.term-llantas .add_to_cart_button{
+	font-size: 12px;
+	text-transform:unset;
+	padding: 4px 10px;
+}
+
+.term-llantas .product-name{
+	color:black;
+	font-weight: 500;
+	max-width: 200px;
+	padding:15px;
 }
 
 .term-llantas .product-loop .product-buttons > div a::before{
@@ -117,18 +178,8 @@ Template: amely
 	border-right: none;
 }
 
-
-/*.term-llantas .product-loop .product-buttons,
-.term-llantas .product-loop .product-buttons > div{
-	transform: none;
-	opacity: 1;
-	visibility: visible;
+.term-llantas .col-switcher{
+	display: none;
 }
-
-.term-llantas .product-loop .product-buttons{
-	
-	top:0;
-	left: -100px;
-}*/
 
 
