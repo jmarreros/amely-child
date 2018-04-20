@@ -94,22 +94,47 @@ $buttons_class[] = wp_is_mobile() ? 'mobile' : '';
 				echo "</a>";
 			?>
 
-			<div class="fabricante">
+			<div class="manufacturer">
 				Algún fabricante
 				<?php echo $product->get_attribute( 'pa_fabricante' );  ?>
 			</div>
-		</div>
+
+			<div class="finish">
+				Algún acabado
+				<?php echo $product->get_attribute( 'pa_acabado' );  ?>
+			</div>
+
+			<?php 
+				$pa_diametro = $product->get_attribute( 'pa_diametro' );
+				$pa_anclaje = $product->get_attribute( 'pa_anclaje' );
+				$pa_et = $product->get_attribute( 'pa_et' );
+			?>
+			
+			<div class="responsive-attr">
+				<div class="attr-et attr">
+					<?php echo "Diámetro: " . $pa_diametro; ?>
+				</div>
+				<div class="attr-anclaje attr"> 
+					<?php echo "Anclaje:" .  $pa_anclaje;  ?>
+				</div>
+				<div class="attr-et attr">
+					<?php echo  "ET:" . $pa_et; ?>
+				</div>				
+			</div>
+
+		</div><!-- product name -->
+
 	</div>
 
 	<div class="attributes">
-		<div class="attr-et attr"> <strong>Diámetro:</strong> 
-			<?php echo $product->get_attribute( 'pa_diametro' );  ?>
+		<div class="attr-et attr">
+			<?php echo $pa_diametro; ?>
 		</div>
-		<div class="attr-anclaje attr"> <strong>Anclaje:</strong> 
-			<?php echo $product->get_attribute( 'pa_anclaje' );  ?>
+		<div class="attr-anclaje attr"> 
+			<?php echo $pa_anclaje;  ?>
 		</div>
-		<div class="attr-et attr"> <strong>ET:</strong> 
-			<?php echo $product->get_attribute( 'pa_et' );  ?>
+		<div class="attr-et attr">
+			<?php echo  $pa_et; ?>
 		</div>
 	</div>
 

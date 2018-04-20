@@ -215,6 +215,13 @@ if ( ! $sidebar ) {
 					<div class='product product-loop new post-106 type-product status-publish has-post-thumbnail product_cat-llantas'>
 						<div class="wrap-first-columns"></div>
 						<div class="attributes attr-header">
+							<div class="attr-et attr"> <strong>Características</strong></div>
+						</div>
+						<div class="wrap-last-columns"></div>
+					</div>
+					<div class='product product-loop new post-106 type-product status-publish has-post-thumbnail product_cat-llantas'>
+						<div class="wrap-first-columns"></div>
+						<div class="attributes attr-header">
 							<div class="attr-et attr"> <strong>DIAM.</strong></div>
 							<div class="attr-anclaje attr"> <strong>ANC.</strong></div>
 							<div class="attr-et attr"> <strong>ET.</strong></div>
