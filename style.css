@@ -95,13 +95,13 @@ Template: amely
 	flex-grow: 1;
 	display: flex;
 	background-color: #f2fbff;
-	min-width:180px;
+	min-width:240px;
 }
 
 .illantas .attributes .attr{
 	border-right:1px solid gray;
 	flex-grow: 1;
-	width: 33%;
+	width: 25%;
 	text-align:center;
 	padding-top:20px;
 	min-width: 60px;
@@ -338,54 +338,3 @@ Template: amely
 
 }
 
-/*@media ( max-width: 1000px ){
-	.illantas .wrap-last-columns{
-		width: 150px;
-	}
-	.illantas .wrap-price,
-	.illantas .add_cart{
-		float:none;
-		width: auto;
-		text-align: center;
-		margin-right: 0;
-	}
-
-	.illantas .wrap-price .price,
-	.illantas .wrap-price .price del,
-	.illantas .wrap-price .price ins{
-		text-align: center;
-	}
-
-}*/
-
-/*
-
-@media ( max-width: 780px ){
-
-	.illantas .products .product{
-		flex-direction: column;
-		margin: auto;
-		text-align: center;
-	}
-
-	.illantas .products .product > div{
-		max-width: 100%;
-		margin:auto;
-		padding:10px;
-	}
-
-	.illantas .products .product .labels{
-		margin:0;
-	}
-
-	.illantas .attributes > div{
-		float:left;
-		margin-right: 10px;
-	}
-
-	.illantas .add_cart{
-		padding-top:0;
-	}
-
-}
-*/

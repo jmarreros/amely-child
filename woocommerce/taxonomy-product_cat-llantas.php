@@ -194,22 +194,8 @@ if ( ! $sidebar ) {
 
 				if ( wc_get_loop_prop( 'total' ) ) {
 
-					
-					// while ( have_posts() ) {
-					// 	the_post();
 
-					// 	*
-					// 	 * Hook: woocommerce_shop_loop.
-					// 	 *
-					// 	 * @hooked WC_Structured_Data::generate_product_data() - 10
-						 
-					// 	do_action( 'woocommerce_shop_loop' );
-
-					// 	wc_get_template_part( 'content', 'product' );
-					// }
-
-
-					// Table format
+					// Table format header
 
 					?>
 					<div class='product product-loop new post-106 type-product status-publish has-post-thumbnail product_cat-llantas'>
@@ -222,6 +208,7 @@ if ( ! $sidebar ) {
 					<div class='product product-loop new post-106 type-product status-publish has-post-thumbnail product_cat-llantas'>
 						<div class="wrap-first-columns"></div>
 						<div class="attributes attr-header">
+							<div class="attr-et attr"> <strong>ANCH.</strong></div>
 							<div class="attr-et attr"> <strong>DIAM.</strong></div>
 							<div class="attr-anclaje attr"> <strong>ANC.</strong></div>
 							<div class="attr-et attr"> <strong>ET.</strong></div>

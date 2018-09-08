@@ -47,17 +47,6 @@ if ( $is_new ) {
 	$classes[] = 'new';
 }
 
-// $classes[] = Amely_Helper::get_grid_item_class( apply_filters( 'amely_shop_products_columns',
-// 	array(
-// 		'xs' => 1,
-// 		'sm' => 2,
-// 		'md' => 3,
-// 		'lg' => 4,
-// 		'xl' => intval( get_option( 'woocommerce_catalog_columns', 5 ) ),
-// 	) ) );
-
-// $other_classes = apply_filters( 'amely_shop_products_classes', '' );
-// $classes[]     = $other_classes;
 
 $buttons_class   = array(
 	'product-buttons product-buttons--' . apply_filters( 'amely_product_buttons_scheme',
@@ -89,28 +78,30 @@ $buttons_class[] = wp_is_mobile() ? 'mobile' : '';
 
 		<div class="product-name">
 			<?php 
-				echo "<a href='" . $product->get_permalink() . "' >";
+				//echo "<a href='" . $product->get_permalink() . "' >";
 				echo "<span>" . $product->get_name() . "</span>"; 
-				echo "</a>";
+				//echo "</a>";
 			?>
 
 			<div class="manufacturer">
-				Algún fabricante
 				<?php echo $product->get_attribute( 'pa_fabricante' );  ?>
 			</div>
 
 			<div class="finish">
-				Algún acabado
 				<?php echo $product->get_attribute( 'pa_acabado' );  ?>
 			</div>
 
 			<?php 
+				$pa_ancho = $product->get_attribute( 'pa_anchura' );
 				$pa_diametro = $product->get_attribute( 'pa_diametro' );
 				$pa_anclaje = $product->get_attribute( 'pa_anclaje' );
 				$pa_et = $product->get_attribute( 'pa_et' );
 			?>
 			
 			<div class="responsive-attr">
+				<div class="attr-wide attr">
+					<?php echo "Ancho: " . $pa_ancho; ?>
+				</div>
 				<div class="attr-et attr">
 					<?php echo "Diámetro: " . $pa_diametro; ?>
 				</div>
@@ -127,6 +118,9 @@ $buttons_class[] = wp_is_mobile() ? 'mobile' : '';
 	</div>
 
 	<div class="attributes">
+		<div class="attr-wide attr">
+			<?php echo $pa_ancho; ?>
+		</div>		
 		<div class="attr-et attr">
 			<?php echo $pa_diametro; ?>
 		</div>
